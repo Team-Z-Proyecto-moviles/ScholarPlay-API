@@ -10,7 +10,7 @@ router.get("/", (req, res,next)=>{
 router.get("/:identifier", (req, res) => {
     const id = req.params.identifier;
 
-    const student = students.find(p => p.id == id);
+    const student = students.find(p => p.id === id);
 
     if(!student){
         return res.status(404)

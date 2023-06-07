@@ -1,23 +1,20 @@
 const express = require("express");
 const router = express.Router();
 
-const students = require('../../data/student.example.json')
+const studentController = require("../../controllers/student.controller");
 
-router.get("/", (req, res,next)=>{
-    return res.status(200).json({students});
-});
+const studentValidators = require("../../validators/student.validators");
+const runValidations = require("../../validators/index.middleware");
 
-router.get("/:identifier", (req, res) => {
-    const id = req.params.identifier;
+router.get("/", studentController.findAll);
 
-    const student = students.find(p => p.id === id);
+router.get("/:identifier", studentValidators.findStudenByIdValidator,
+runValidations, 
+studentController.findOneById);
 
-    if(!student){
-        return res.status(404)
-            .json({ error: "Student not found" })
-    }
-
-    return res.status(200).json(student);
-});
+router.post("/", 
+studentValidators.createStudentValidator,
+runValidations,
+studentController.create);
 
 module.exports = router;

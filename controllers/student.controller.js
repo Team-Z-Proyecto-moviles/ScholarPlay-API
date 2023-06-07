@@ -3,30 +3,31 @@ const debug = require("debug")("app:student-controller");
 
 const controller = {};
 
-controller.create = async (req, res) => {
+controller.register = async (req, res) => {
     try{
         
-    
     const {name, password, email} = req.body;
 
-    const student = new Student({
+    const student = await Student.findOne({ $or: [{name: name}, {email: email} ]});
+
+    if(student) {
+        return res.status(409).json({ error: "The student already exits" })
+    }
+
+    const newStudent = new Student({
         name: name,
         password: password,
         email: email
     })
 
-    const newStudent = await student.save();
+    await newStudent.save();
 
-    if(!newStudent){
-        return res.staus(409).json({error: "Error developing student"});  
-    }
-
-    return res.status(201).json(newStudent);
+    return res.status(201).json({message: "User develop succesfull "});
     }catch (error){
         debug({ error  })
         return res.status(500).json({error: "Server Error"})
     }
-    }
+}
 
 controller.findAll = async (req, res) => {
     try {
@@ -53,6 +54,27 @@ controller.findOneById = async (req, res) => {
     }catch(error){
         debug({error});
         return res.status(500).jason({error: "Error internal server"})
+    }
+}
+
+controller.login = async (req, res) => {
+    try{
+        const { identifier, password } = req.body
+
+        const student = await Student.findOne({ $or: [ {name: identifier}, { email: identifier } ] });
+
+        if (!student) {
+            return res.status(404).json({ error: "The student does(not) exits" });
+        }
+
+        if (!student.comparePassword(password)) {
+            return res.status(401).json({ error: "password incorrect" });
+        }
+
+        return res.status(200).json({ message: "The student has succesfull login"})
+    }catch(error){
+    debug(error);
+    return res.status(500).json({ error: "Sever error" })
     }
 }
 

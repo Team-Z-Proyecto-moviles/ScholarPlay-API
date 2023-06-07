@@ -16,4 +16,9 @@ validators.findClassroomByIdValidator = [
         .isMongoId().withMessage("Identifier must be mongo")
 ]
 
+validators.findClassroomByTeacherIdValidator = [
+    param("identifier")
+        .notEmpty().withMessage("Identifier can(not) be empty")
+]
+
 module.exports = validators;

@@ -12,9 +12,14 @@ router.get("/:identifier", classroomValidators.findClassroomByIdValidator,
 runValidations, 
 classroomController.findOneById);
 
+router.get("/teacher/:identifier", classroomValidators.findClassroomByIdValidator,
+runValidations, 
+classroomController.findOneByTeacherId);
+
 router.post("/", 
 classroomValidators.createClassroomValidator,
 runValidations,
 classroomController.create);
+
 
 module.exports = router;

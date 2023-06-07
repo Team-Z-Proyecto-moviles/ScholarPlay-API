@@ -17,7 +17,7 @@ validators.findClassroomByIdValidator = [
 ]
 
 validators.findClassroomByTeacherIdValidator = [
-    param("identifier")
+    param("teacherId")
         .notEmpty().withMessage("Identifier can(not) be empty")
 ]
 

@@ -12,9 +12,9 @@ router.get("/:identifier", classroomValidators.findClassroomByIdValidator,
 runValidations, 
 classroomController.findOneById);
 
-router.get("/teacher/:identifier", classroomValidators.findClassroomByIdValidator,
+router.get("/found/:teacherId", classroomValidators.findClassroomByTeacherIdValidator,
 runValidations, 
-classroomController.findOneByTeacherId);
+classroomController.findByTeacherId);
 
 router.post("/", 
 classroomValidators.createClassroomValidator,

@@ -3,24 +3,26 @@ const debug = require("debug")("app:teacher-controller");
 
 const controller = {};
 
-controller.create = async (req, res) => {
+controller.register = async (req, res) => {
     try{
 
     const {name, password, email} = req.body;
 
-    const teacher = new Teacher({   
+    const teacher = await Teacher.findOne({ $or: [{name: name}, {email: email} ]});
+
+    if(teacher) {
+        return res.status(409).json({ error: "The teacher already exits" })
+    }
+
+    const newTeacher = new Teacher({
         name: name,
         password: password,
         email: email
     })
 
-    const newTeacher = await teacher.save();
+    await newTeacher.save();
 
-    if(!newTeacher){
-        return res.staus(409).json({error: "Error developing teacher"});  
-    }
-
-    return res.status(201).json(newTeacher);
+    return res.status(201).json({message: "Teacher develop succesfull"});
     }catch (error){
         debug({ error  })
         return res.status(500).json({error: "Server Error"})
@@ -52,6 +54,27 @@ controller.findOneById = async (req, res) => {
     }catch(error){
         debug({error});
         return res.status(500).jason({error: "Error internal server"})
+    }
+}
+
+controller.login = async (req, res) => {
+    try{
+        const { identifier, password } = req.body
+
+        const teacher = await Teacher.findOne({ $or: [ {name: identifier}, { email: identifier } ] });
+
+        if (!teacher) {
+            return res.status(404).json({ error: "The teacher does(not) exits" });
+        }
+
+        if (!teacher.comparePassword(password)) {
+            return res.status(401).json({ error: "password incorrect" });
+        }
+
+        return res.status(200).json({ message: "The teacher has succesfull login"})
+    }catch(error){
+    debug(error);
+    return res.status(500).json({ error: "Sever error" })
     }
 }
 

@@ -13,8 +13,10 @@ runValidations,
 teacherController.findOneById);
 
 router.post("/", 
-teacherValidators.createTeacherValidator,
+teacherValidators.registerTeacherValidator,
 runValidations,
-teacherController.create);
+teacherController.register);
+
+router.post("/signin", teacherController.login)
 
 module.exports = router;

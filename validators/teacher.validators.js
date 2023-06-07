@@ -2,9 +2,10 @@ const { body, param } = require("express-validator");
 const validators = {};
 const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,32})/
 
-validators.createTeacherValidator = [
+validators.registerTeacherValidator = [
     body("name")
-        .notEmpty().withMessage("Name can(not) be empty"),
+        .notEmpty().withMessage("Name can(not) be empty")
+        .isLength({ min:4, max: 180}).withMessage("The name must have between 4 and 180 characters"),
     body("email")
         .notEmpty().withMessage("Email can(not) be empty")
         .isLength({ max: 280 }).withMessage("Email can(not) exceed 280 characters")

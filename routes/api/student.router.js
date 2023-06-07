@@ -2,7 +2,6 @@ const express = require("express");
 const router = express.Router();
 
 const studentController = require("../../controllers/student.controller");
-
 const studentValidators = require("../../validators/student.validators");
 const runValidations = require("../../validators/index.middleware");
 
@@ -13,8 +12,10 @@ runValidations,
 studentController.findOneById);
 
 router.post("/", 
-studentValidators.createStudentValidator,
+studentValidators.registerStudentValidator,
 runValidations,
-studentController.create);
+studentController.register);
+
+router.post("/signin", studentController.login)
 
 module.exports = router;

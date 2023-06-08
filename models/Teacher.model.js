@@ -23,7 +23,11 @@ email: {
    },
    salt: {
     type: String
-   }
+   },
+   tokens: {
+    type: [String],
+    default: []
+    }
 }, { timestamps: true });
 
 TeacherSchema.methods = {

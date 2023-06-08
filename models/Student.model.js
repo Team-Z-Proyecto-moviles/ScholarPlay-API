@@ -23,6 +23,10 @@ const StudentSchema = new Schema({
  },
  salt: {
    type: String
+ },
+ tokens: {
+   type: [String],
+   default: []
  }
 }, { timestamps: true });
 

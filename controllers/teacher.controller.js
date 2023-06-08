@@ -1,6 +1,8 @@
 const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:teacher-controller");
 
+const { createTokensteacher, verifyToken } = require("../utils/jwt.tools");
+
 const controller = {};
 
 controller.register = async (req, res) => {
@@ -71,7 +73,12 @@ controller.login = async (req, res) => {
             return res.status(401).json({ error: "password incorrect" });
         }
 
-        return res.status(200).json({ message: "The teacher has succesfull login"})
+        const token = createTokensteacher(teacher._id);
+        teacher.tokens =  [token, ...teacher.tokens.filter(_token => verifyToken(_token)).splice(0,4)];
+
+        await teacher.save()
+
+        return res.status(200).json({ token: token });
     }catch(error){
     debug(error);
     return res.status(500).json({ error: "Sever error" })

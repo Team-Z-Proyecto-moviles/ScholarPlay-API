@@ -5,9 +5,9 @@ validators.createClassroomValidator = [
     body("name")
         .notEmpty().withMessage("Name can(not) be empty"),
     body("teacher")
-    .notEmpty().withMessage("Teacher can(not) be empty"),
+        .notEmpty().withMessage("Teacher can(not) be empty"),
     body("student")
-    .notEmpty().withMessage("Student can(not) be empty")
+        .notEmpty().withMessage("Student can(not) be empty")
 ]
 
 validators.findClassroomByIdValidator = [

@@ -1,5 +1,4 @@
 const Classroom = require("../models/Classroom.model");
-const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
 
 const controller = {};

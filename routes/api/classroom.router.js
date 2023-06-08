@@ -6,6 +6,8 @@ const classroomController = require("../../controllers/classroom.controller");
 const classroomValidators = require("../../validators/classroom.validators");
 const runValidations = require("../../validators/index.middleware");
 
+const { authentication } = require("../../middlewares/auth.middlewares");
+
 router.get("/", classroomController.findAll);
 
 router.get("/:identifier", classroomValidators.findClassroomByIdValidator,
@@ -16,7 +18,7 @@ router.get("/found/:teacherId", classroomValidators.findClassroomByTeacherIdVali
 runValidations, 
 classroomController.findByTeacherId);
 
-router.post("/", 
+router.post("/",
 classroomValidators.createClassroomValidator,
 runValidations,
 classroomController.create);

@@ -21,4 +21,9 @@ validators.findStudenByIdValidator = [
         .isMongoId().withMessage("Identifier must be mongo")
 ]
 
+validators.finStudentByToken = [
+    param("tokens")
+        .notEmpty().withMessage("Token can(not) be empty")
+]
+
 module.exports = validators;

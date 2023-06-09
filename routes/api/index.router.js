@@ -11,6 +11,7 @@ const gradeRouter = require("./grade.router");
 const authRouter = require("./auth.router");
 
 //Defining the routes
+router.use("/auth", authRouter);
 router.use("/student", studentRouter);
 router.use("/teacher", teacherRouter);
 router.use("/classroom", classroomRouter);

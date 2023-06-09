@@ -52,6 +52,7 @@ authController.signIn = async (req, res) => {
 };
 
 
+
 authController.findOneByToken = async (req, res) => {
   try {
     const { token } = req.params;
@@ -74,5 +75,6 @@ authController.findOneByToken = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 module.exports = authController;

@@ -55,8 +55,4 @@ validators.deleteStudentValidator = [
       .notEmpty().withMessage("Token cannot be empty")
 ];
 
-  
-
-  
-
 module.exports = validators;

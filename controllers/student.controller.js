@@ -76,7 +76,7 @@ controller.findOneByToken = async (req, res) => {
     }
   };
   
-
+//combinar con teacher
 controller.login = async (req, res) => {
     try{
         const { identifier, password } = req.body

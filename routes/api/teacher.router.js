@@ -12,7 +12,7 @@ router.get("/:identifier", teacherValidators.findTeacherByIdValidator,
 runValidations, 
 teacherController.findOneById);
 
-router.post("/", 
+router.post("/register/", 
 teacherValidators.registerTeacherValidator,
 runValidations,
 teacherController.register);

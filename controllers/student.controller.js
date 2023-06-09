@@ -59,6 +59,24 @@ controller.findOneById = async (req, res) => {
     }
 }
 
+controller.findOneByToken = async (req, res) => {
+    try {
+      const { tokens } = req.params;
+  
+      const student = await Student.findOne({ tokens: tokens });
+  
+      if (!student) {
+        return res.status(404).json({ error: "Student not found" });
+      }
+  
+      return res.status(200).json(student);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
+
 controller.login = async (req, res) => {
     try{
         const { identifier, password } = req.body

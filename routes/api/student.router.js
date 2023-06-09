@@ -16,6 +16,9 @@ studentValidators.registerStudentValidator,
 runValidations,
 studentController.register);
 
-router.post("/signin", studentController.login)
+router.post("/signin", studentController.login);
+
+router.get("/token/:tokens", studentValidators.finStudentByToken, runValidations, studentController.findOneByToken);
+
 
 module.exports = router;

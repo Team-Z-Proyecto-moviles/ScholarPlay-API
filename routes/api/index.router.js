@@ -18,6 +18,7 @@ router.use("/classroom", classroomRouter);
 router.use("/homework",homeworkRouter);
 router.use("/rubric",rubricRouter);
 router.use("/grade", gradeRouter);
+router.use("/auth", authRouter);
 
 module.exports = router;
 

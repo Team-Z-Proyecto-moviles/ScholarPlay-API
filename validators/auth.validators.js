@@ -10,3 +10,4 @@ authValidators.signinValidator = [
 ];
 
 module.exports = authValidators;
+

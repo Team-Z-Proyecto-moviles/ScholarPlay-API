@@ -11,7 +11,7 @@ router.get("/:identifier", studentValidators.findStudenByIdValidator,
 runValidations, 
 studentController.findOneById);
 
-router.post("/", 
+router.post("/register/", 
 studentValidators.registerStudentValidator,
 runValidations,
 studentController.register);

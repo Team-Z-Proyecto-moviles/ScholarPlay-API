@@ -101,6 +101,45 @@ controller.login = async (req, res) => {
     debug(error);
     return res.status(500).json({ error: "Sever error" })
     }
-}
+};
+
+controller.upgradeStudent = async (req, res) => {
+    try {
+      const { token } = req.params;
+      const { name, email } = req.body;
+  
+      const updatedStudent = await Student.findOneAndUpdate(
+        { tokens: token },
+        { name, email },
+        { new: true }
+      );
+  
+      if (!updatedStudent) {
+        return res.status(404).json({ error: "Student not found" });
+      }
+  
+      return res.status(200).json(updatedStudent);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
+
+controller.deleteStudent = async (req, res) => {
+    try {
+      const { token } = req.params;
+  
+      const deletedStudent = await Student.findOneAndDelete({ tokens: token });
+  
+      if (!deletedStudent) {
+        return res.status(404).json({ error: "Student not found" });
+      }
+  
+      return res.status(200).json({ message: "Student deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
 
 module.exports = controller;

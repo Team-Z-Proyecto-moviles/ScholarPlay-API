@@ -8,7 +8,7 @@ const controller = {};
 controller.register = async (req, res) => {
     try{
 
-    const {name, password, email} = req.body;
+    const {name, password, email, status} = req.body;
 
     const teacher = await Teacher.findOne({ $or: [{name: name}, {email: email} ]});
 
@@ -19,7 +19,8 @@ controller.register = async (req, res) => {
     const newTeacher = new Teacher({
         name: name,
         password: password,
-        email: email
+        email: email,
+        status: status
     })
 
     await newTeacher.save();

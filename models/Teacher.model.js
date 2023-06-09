@@ -21,6 +21,10 @@ email: {
    trim: true,
    unique: true
    },
+status: {
+      type: String,
+      default: ""
+   },
    salt: {
     type: String
    },

@@ -21,6 +21,10 @@ const StudentSchema = new Schema({
     trim: true,
     unique: true
  },
+ status: {
+   type: String,
+   default: ""
+},
  salt: {
    type: String
  },

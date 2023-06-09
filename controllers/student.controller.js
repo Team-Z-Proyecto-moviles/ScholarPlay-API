@@ -8,7 +8,7 @@ const controller = {};
 controller.register = async (req, res) => {
     try{
         
-    const {name, password, email} = req.body;
+    const {name, password, email, status} = req.body;
 
     const student = await Student.findOne({ $or: [{name: name}, {email: email} ]});
 
@@ -19,7 +19,8 @@ controller.register = async (req, res) => {
     const newStudent = new Student({
         name: name,
         password: password,
-        email: email
+        email: email,
+        status: status
     })
 
     await newStudent.save();
@@ -76,7 +77,7 @@ controller.findOneByToken = async (req, res) => {
     }
   };
   
-
+//combinar con teacher
 controller.login = async (req, res) => {
     try{
         const { identifier, password } = req.body

@@ -17,6 +17,22 @@ teacherValidators.registerTeacherValidator,
 runValidations,
 teacherController.register);
 
-router.post("/signin", teacherController.login)
+router.post("/signin", teacherController.login);
+
+router.put("/token/update/:token", 
+teacherValidators.updateTeacherValidator, 
+runValidations, 
+teacherController.updateTeacher);
+
+router.delete("/token/delete/:token", 
+teacherValidators.deleteTeacherValidator, 
+runValidations, 
+teacherController.deleteTeacher);
+
+router.get("/token/:token", 
+teacherValidators.findTeacherByTokenValidator, 
+runValidations, 
+teacherController.findTeacherByToken);
+
 
 module.exports = router;

@@ -18,7 +18,20 @@ studentController.register);
 
 router.post("/signin", studentController.login);
 
-router.get("/token/:tokens", studentValidators.finStudentByToken, runValidations, studentController.findOneByToken);
+router.get("/token/:tokens", 
+studentValidators.finStudentByToken, 
+runValidations, 
+studentController.findOneByToken);
+
+router.put("/token/upgrade/:token", 
+studentValidators.upgradeStudentValidator, 
+runValidations, 
+studentController.upgradeStudent);
+
+router.delete("/token/delete/:token", 
+studentValidators.deleteStudentValidator, 
+runValidations, 
+studentController.deleteStudent);
 
 
 module.exports = router;

@@ -23,5 +23,7 @@ classroomValidators.createClassroomValidator,
 runValidations,
 classroomController.create);
 
+router.delete("/delete/:identifier", classroomValidators.deleteClassroomByIdentifierValidator, runValidations, classroomController.deleteClassroomByIdentifier);
+
 
 module.exports = router;

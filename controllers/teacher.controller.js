@@ -83,6 +83,63 @@ controller.login = async (req, res) => {
     debug(error);
     return res.status(500).json({ error: "Sever error" })
     }
-}
+};
+
+controller.updateTeacher = async (req, res) => {
+    try {
+      const { token } = req.params;
+      const { name, email } = req.body;
+  
+      const updatedTeacher = await Teacher.findOneAndUpdate(
+        { tokens: token },
+        { $set: { name, email } },
+        { new: true }
+      );
+  
+      if (!updatedTeacher) {
+        return res.status(404).json({ error: "Teacher not found" });
+      }
+  
+      return res.status(200).json(updatedTeacher);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+};
+  
+controller.deleteTeacher = async (req, res) => {
+    try {
+      const { token } = req.params;
+  
+      const deletedTeacher = await Teacher.findOneAndDelete({ tokens: token });
+  
+      if (!deletedTeacher) {
+        return res.status(404).json({ error: "Teacher not found" });
+      }
+  
+      return res.status(200).json({ message: "Teacher deleted successfully" });
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+};
+
+controller.findTeacherByToken = async (req, res) => {
+    try {
+      const { token } = req.params;
+  
+      const teacher = await Teacher.findOne({ tokens: token });
+  
+      if (!teacher) {
+        return res.status(404).json({ error: "Teacher not found" });
+      }
+  
+      return res.status(200).json(teacher);
+    } catch (error) {
+      debug({ error });
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
+  
 
 module.exports = controller;

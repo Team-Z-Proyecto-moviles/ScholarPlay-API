@@ -70,5 +70,21 @@ controller.findByTeacherId = async (req, res) => {
   }
 };
 
+controller.deleteClassroomByIdentifier = async (req, res) => {
+  try {
+    const { identifier } = req.params;
+
+    const classroom = await Classroom.findByIdAndDelete(identifier);
+
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found" });
+    }
+
+    return res.status(200).json({ message: "Classroom deleted successfully" });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 module.exports = controller;

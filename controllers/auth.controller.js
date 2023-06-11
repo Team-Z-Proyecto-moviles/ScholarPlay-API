@@ -80,14 +80,14 @@ authController.findOneByTokenAll = async (req, res) => {
   try {
     const { token } = req.params;
 
-    // Find student by token
-    const student = await Student.findOne({ tokens: token });
+    // Find student by token and select specific fields
+    const student = await Student.findOne({ tokens: token }).select('name email status');
     if (student) {
       return res.status(200).json({ user: student });
     }
 
     // Find teacher by token
-    const teacher = await Teacher.findOne({ tokens: token });
+    const teacher = await Teacher.findOne({ tokens: token }).select('name email status');
     if (teacher) {
       return res.status(200).json({ user: teacher });
     }
@@ -98,6 +98,7 @@ authController.findOneByTokenAll = async (req, res) => {
     return res.status(500).json({ message: "Internal server error" });
   }
 };
+
 
 
 //1

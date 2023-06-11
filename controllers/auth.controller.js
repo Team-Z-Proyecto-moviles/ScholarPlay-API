@@ -100,5 +100,5 @@ authController.findOneByTokenAll = async (req, res) => {
 };
 
 
-
+//1
 module.exports = authController;

@@ -6,30 +6,30 @@ const { createTokenstudent, verifyToken } = require ("../utils/jwt.tools");
 const controller = {};
 
 controller.register = async (req, res) => {
-    try{
-        
-    const {name, password, email, status} = req.body;
+  try{
+      
+  const {name, password, email, status} = req.body;
 
-    const student = await Student.findOne({ $or: [{name: name}, {email: email} ]});
+  const student = await Student.findOne({ $or: [{name: name}, {email: email} ]});
 
-    if(student) {
-        return res.status(409).json({ error: "The student already exits" })
-    }
+  if(student) {
+      return res.status(409).json({ error: "The student already exits" })
+  }
 
-    const newStudent = new Student({
-        name: name,
-        password: password,
-        email: email,
-        status: status
-    })
+  const newStudent = new Student({
+      name: name,
+      password: password,
+      email: email,
+      status: status
+  })
 
-    await newStudent.save();
+  await newStudent.save();
 
-    return res.status(201).json({message: "User develop succesfull "});
-    }catch (error){
-        debug({ error  })
-        return res.status(500).json({error: "Server Error"})
-    }
+  return res.status(201).json({message: "User develop succesfull "});
+  }catch (error){
+      debug({ error  })
+      return res.status(500).json({error: "Server Error"})
+  }
 }
 
 controller.findAll = async (req, res) => {
@@ -142,5 +142,18 @@ controller.deleteStudent = async (req, res) => {
       return res.status(500).json({ error: "Internal server error" });
     }
   };
+
+
+
+controller.deleteAllUsers = async (req, res) => {
+  try {
+    await Student.deleteMany();
+    return res.status(200).json({ message: "All users deleted successfully" });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Server Error" });
+  }
+};
+
 
 module.exports = controller;

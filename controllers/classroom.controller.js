@@ -87,4 +87,20 @@ controller.deleteClassroomByIdentifier = async (req, res) => {
   }
 };
 
+controller.findAllByStudentId = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+    const classrooms = await Classroom.find({ student: studentId });
+
+    if (classrooms.length === 0) {
+      return res.status(404).json({ error: "Classroom not found for the given student ID" });
+    }
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
 module.exports = controller;

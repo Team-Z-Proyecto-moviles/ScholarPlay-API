@@ -5,12 +5,13 @@ const debug = require("debug");
 const crypto = require("crypto");
 
 const StudentSchema = new Schema({ 
- name: {
-    type: String,
-    trim: true,
-    required: true,
-    unique: true
- },
+   name: {
+      type: String,
+      trim: true,
+      required: true,
+      unique: true
+    },
+    
  hashedPassword: {
     type: String,
     required: true
@@ -59,13 +60,22 @@ StudentSchema.methods = {
       return this.hashedPassword === this.encryptPassword(password);
    }
 }
-
+/*
 StudentSchema.virtual("password")
 .set(function(password = crypto.randomBytes(16).toString()){
   if(!password) return;
 
   this.salt = this.makeSalt()
   this.hashedPassword = this.encryptPassword(password)
-})
+})*/
+
+StudentSchema.virtual("password")
+.set(function(password = crypto.randomBytes(16).toString()) {
+   if (!password) return;
+ 
+   this.salt = this.makeSalt();
+   this.hashedPassword = this.encryptPassword(password);
+ });
+ 
 
 module.exports = Mongoose.model("Student", StudentSchema);

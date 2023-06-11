@@ -76,5 +76,29 @@ authController.findOneByToken = async (req, res) => {
   }
 };
 
+authController.findOneByTokenAll = async (req, res) => {
+  try {
+    const { token } = req.params;
+
+    // Find student by token
+    const student = await Student.findOne({ tokens: token });
+    if (student) {
+      return res.status(200).json({ user: student });
+    }
+
+    // Find teacher by token
+    const teacher = await Teacher.findOne({ tokens: token });
+    if (teacher) {
+      return res.status(200).json({ user: teacher });
+    }
+
+    // If neither student nor teacher is found with the given token
+    return res.status(404).json({ message: "Cannot find user with the provided token." });
+  } catch (error) {
+    return res.status(500).json({ message: "Internal server error" });
+  }
+};
+
+
 
 module.exports = authController;

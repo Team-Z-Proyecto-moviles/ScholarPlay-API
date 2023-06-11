@@ -53,4 +53,4 @@ middlewares.authenticationStudent = async (req, res, next) => {
  }
 }
 
-module.expors = middlewares
+module.exports = middlewares

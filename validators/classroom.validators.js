@@ -25,4 +25,9 @@ validators.deleteClassroomByIdentifierValidator = [
     param("identifier").notEmpty().withMessage("Identifier can(not) be empty"),
   ];
 
+validators.findClassroomsByStudentIdValidator = [
+    param("studentId")
+        .notEmpty().withMessage("Identifier can(not) be empty"),
+];
+
 module.exports = validators;

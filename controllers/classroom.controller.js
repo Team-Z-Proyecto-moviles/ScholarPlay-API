@@ -1,23 +1,42 @@
 const Classroom = require("../models/Classroom.model");
+const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
 
 const controller = {};
 
+function generarLetra(){
+  var letras = ["A","B","C","D","E","F","0","1","2","3","4","5","6","7","8","9"];
+  var numero = (Math.random()*15).toFixed(0);
+  return letras[numero];
+}
+
+function colorHEX(){
+  var coolor = "";
+  for(var i=0;i<6;i++){
+    coolor = coolor + generarLetra() ;
+  }
+  return coolor;
+}
+
 controller.create = async (req, res) => {
   try {
-    const { name, teacher, student } = req.body;
+    const { name, teacher, student, codeClassroom  } = req.body;
 
     const classroom = new Classroom({
       name: name,
       teacher: teacher,
-      student: student
+      student: student,
+      codeClassroom: colorHEX()
     });
-
+    
+  
     const newClassroom = await classroom.save();
 
     if (!newClassroom) {
       return res.status(409).json({ error: "Error creating classroom" });
     }
+
+
 
     return res.status(201).json(newClassroom);
   } catch (error) {
@@ -97,6 +116,45 @@ controller.findAllByStudentId = async (req, res) => {
     }
 
     return res.status(200).json({ classrooms });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    const classrooms = await Classroom.find({ student: studentId }).populate("teacher", "name");
+
+    if (classrooms.length === 0) {
+      return res.status(404).json({ error: "Classroom not found for the given student ID" });
+    }
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+controller.updateByClassroomId = async (req, res) => {
+  try {
+    const { classroomId } = req.params;
+    const { studentId } = req.body;
+
+    const classroom = await Classroom.findById(classroomId);
+
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found" });
+    }
+
+    classroom.student.push(studentId);
+
+    const updatedClassroom = await classroom.save();
+
+    return res.status(200).json(updatedClassroom);
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });

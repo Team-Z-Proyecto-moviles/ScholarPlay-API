@@ -1,4 +1,5 @@
 const Classroom = require("../models/Classroom.model");
+const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
 
 const controller = {};
@@ -121,5 +122,43 @@ controller.findAllByStudentId = async (req, res) => {
   }
 };
 
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    const { studentId } = req.params;
+
+    const classrooms = await Classroom.find({ student: studentId }).populate("teacher", "name");
+
+    if (classrooms.length === 0) {
+      return res.status(404).json({ error: "Classroom not found for the given student ID" });
+    }
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+controller.updateByClassroomId = async (req, res) => {
+  try {
+    const { classroomId } = req.params;
+    const { studentId } = req.body;
+
+    const classroom = await Classroom.findById(classroomId);
+
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found" });
+    }
+
+    classroom.student.push(studentId);
+
+    const updatedClassroom = await classroom.save();
+
+    return res.status(200).json(updatedClassroom);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 module.exports = controller;

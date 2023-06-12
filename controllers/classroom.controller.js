@@ -121,4 +121,27 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   }
 };
 
+controller.updateByClassroomId = async (req, res) => {
+  try {
+    const { classroomId } = req.params;
+    const { studentId } = req.body;
+
+    const classroom = await Classroom.findById(classroomId);
+
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found" });
+    }
+
+    classroom.student.push(studentId);
+
+    const updatedClassroom = await classroom.save();
+
+    return res.status(200).json(updatedClassroom);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 module.exports = controller;

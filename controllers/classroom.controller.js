@@ -1,8 +1,7 @@
 const Classroom = require("../models/Classroom.model");
 const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
-const pageNumber = req.query.page || 1; // Get the current page number from the query parameters
-const pageSize = 10; // Number of items per page
+
 
 
 const controller = {};
@@ -47,7 +46,7 @@ controller.create = async (req, res) => {
     return res.status(500).json({ error: "Server Error" });
   }
 };
-
+/*
 controller.findAll = async (req, res) => {
   try {
     const classrooms = await Classroom.find();
@@ -56,7 +55,22 @@ controller.findAll = async (req, res) => {
     debug({ error });
     return res.status(500).json({ error: "Internal Server Error" });
   }
-};
+};*/
+
+
+
+controller.findAll = async (req, res) => {
+  const pageNumber = req.query.page || 1; 
+  const pageSize = 10; 
+    const classrooms = await Classroom.paginate({}, { page: pageNumber, limit: pageSize }, (err, result) => {
+      if (err) {
+        return res.status(500).json({ message: 'Error occurred while fetching users.' });
+      }
+    
+      const { docs, total, limit, page, pages } = result;
+      res.json({ classrooms: docs, total, limit, page, pages });
+    });
+}
 
 controller.findOneById = async (req, res) => {
   try {

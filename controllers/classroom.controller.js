@@ -60,17 +60,21 @@ controller.findAll = async (req, res) => {
 
 
 controller.findAll = async (req, res) => {
-  const pageNumber = req.query.page || 1; 
-  const pageSize = 10; 
-    const classrooms = await Classroom.paginate({}, { page: pageNumber, limit: pageSize }, (err, result) => {
-      if (err) {
-        return res.status(500).json({ message: 'Error occurred while fetching users.' });
-      }
-    
-      const { docs, total, limit, page, pages } = result;
-      res.json({ classrooms: docs, total, limit, page, pages });
-    });
-}
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const classrooms = await Classroom.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
 
 controller.findOneById = async (req, res) => {
   try {
@@ -138,7 +142,7 @@ controller.findAllByStudentId = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
+/*
 controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -153,6 +157,24 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+};*/
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const { studentId } = req.params;
+
+    const classrooms = await Classroom.find({ student: studentId })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("teacher", "name");
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 

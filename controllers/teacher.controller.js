@@ -64,7 +64,7 @@ controller.login = async (req, res) => {
     try{
         const { identifier, password } = req.body
 
-        const teacher = await Teacher.findOne({ $or: [ {name: identifier}, { email: identifier } ] });
+        const teacher = await Teacher.findOne( { email: identifier } );
 
         if (!teacher) {
             return res.status(404).json({ error: "The teacher does(not) exits" });

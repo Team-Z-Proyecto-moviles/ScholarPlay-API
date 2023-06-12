@@ -10,7 +10,7 @@ controller.register = async (req, res) => {
       
   const {name, password, email, status} = req.body;
 
-  const student = await Student.findOne({ $or: [{name: name}, {email: email} ]});
+  const student = await Student.findOne( {email: email} );
 
   if(student) {
       return res.status(409).json({ error: "The student already exits" })

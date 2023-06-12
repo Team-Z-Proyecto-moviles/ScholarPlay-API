@@ -27,4 +27,6 @@ router.delete("/delete/:identifier", classroomValidators.deleteClassroomByIdenti
 
 router.get("/students/classrooms/:studentId", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentId);
 
+router.get("/students/classrooms/plusname/teacher/:studentId", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentIdWithTeacherName);
+
 module.exports = router;

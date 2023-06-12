@@ -2,6 +2,8 @@ const Classroom = require("../models/Classroom.model");
 const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
 
+
+
 const controller = {};
 
 function generarLetra(){
@@ -44,11 +46,30 @@ controller.create = async (req, res) => {
     return res.status(500).json({ error: "Server Error" });
   }
 };
-
+/*
 controller.findAll = async (req, res) => {
   try {
     const classrooms = await Classroom.find();
     return res.status(200).json({classrooms});
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};*/
+
+
+
+controller.findAll = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+
+    const classrooms = await Classroom.find()
+      .skip((page - 1) * limit)
+      .limit(limit);
+
+    return res.status(200).json({ classrooms });
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Internal Server Error" });
@@ -121,7 +142,7 @@ controller.findAllByStudentId = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
-
+/*
 controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   try {
     const { studentId } = req.params;
@@ -136,6 +157,24 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   } catch (error) {
     console.error(error);
     return res.status(500).json({ error: "Internal server error" });
+  }
+};*/
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const { studentId } = req.params;
+
+    const classrooms = await Classroom.find({ student: studentId })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("teacher", "name");
+
+    return res.status(200).json({ classrooms });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
   }
 };
 
@@ -160,5 +199,7 @@ controller.updateByClassroomId = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 
 module.exports = controller;

@@ -1,4 +1,5 @@
 const Mongoose = require("mongoose");
+const mongoosePaginate = require('mongoose-paginate');
 const Schema = Mongoose.Schema;
 const debug = require("debug");
 
@@ -24,5 +25,8 @@ const ClassroomSchema = new Schema({
     }
   }, { timestamps: true });
 
+  ClassroomSchema.plugin(mongoosePaginate);
+
+  //https://blog.devgenius.io/pagination-in-node-js-512fbb809103
 
 module.exports = Mongoose.model("Classroom", ClassroomSchema);

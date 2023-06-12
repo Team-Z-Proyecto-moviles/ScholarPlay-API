@@ -1,6 +1,9 @@
 const Classroom = require("../models/Classroom.model");
 const Teacher = require("../models/Teacher.model");
 const debug = require("debug")("app:classroom-controller");
+const pageNumber = req.query.page || 1; // Get the current page number from the query parameters
+const pageSize = 10; // Number of items per page
+
 
 const controller = {};
 
@@ -160,5 +163,7 @@ controller.updateByClassroomId = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };
+
+
 
 module.exports = controller;

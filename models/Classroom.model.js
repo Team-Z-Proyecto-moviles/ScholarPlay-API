@@ -1,5 +1,6 @@
 const Mongoose = require("mongoose");
 const Schema = Mongoose.Schema;
+const debug = require("debug");
 
 const ClassroomSchema = new Schema({
     name: {
@@ -16,7 +17,12 @@ const ClassroomSchema = new Schema({
         type: Mongoose.Schema.Types.ObjectId,
         ref: 'Student'
       }
-    ]
+    ],
+    codeClassroom: {
+      type: [String],
+      default: []
+    }
   }, { timestamps: true });
 
-  module.exports = Mongoose.model("Classroom", ClassroomSchema);
+
+module.exports = Mongoose.model("Classroom", ClassroomSchema);

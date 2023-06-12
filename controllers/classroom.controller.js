@@ -149,13 +149,14 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
 };*/
 controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   try {
-    let { page = 1, limit = 10 } = req.query;
+    let { page = 1, limit = 10, offset = 0 } = req.query;
     page = parseInt(page);
     limit = parseInt(limit);
+    offset = parseInt(offset);
     const { studentId } = req.params;
 
     const classrooms = await Classroom.find({ student: studentId })
-      .skip((page - 1) * limit)
+      .skip((page - 1) * limit + offset)
       .limit(limit)
       .populate("teacher", "name");
 

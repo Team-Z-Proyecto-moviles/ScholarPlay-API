@@ -147,6 +147,7 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
     return res.status(500).json({ error: "Internal server error" });
   }
 };*/
+/*
 controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   try {
     let { page = 1, limit = 10, offset = 0 } = req.query;
@@ -161,6 +162,102 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
       .populate("teacher", "name");
 
     return res.status(200).json({ classrooms });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};*/
+/*
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const { studentId } = req.params;
+
+    const totalClassrooms = await Classroom.countDocuments({ student: studentId });
+    const totalPages = Math.ceil(totalClassrooms / limit);
+    const nextPage = page < totalPages ? page + 1 : null;
+    const previousPage = page > 1 ? page - 1 : null;
+
+    const classrooms = await Classroom.find({ student: studentId })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("teacher", "name");
+
+    return res.status(200).json({
+      classrooms,
+      count: classrooms.length,
+      totalPages,
+      currentPage: page,
+      nextPage,
+      previousPage,
+    });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};*/
+/*
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    let { page = 1, limit = 10 } = req.query;
+    page = parseInt(page);
+    limit = parseInt(limit);
+    const { studentId } = req.params;
+
+    const totalClassrooms = await Classroom.countDocuments({ student: studentId });
+    const totalPages = Math.ceil(totalClassrooms / limit);
+
+    const classrooms = await Classroom.find({ student: studentId })
+      .skip((page - 1) * limit)
+      .limit(limit)
+      .populate("teacher", "name");
+
+    const nextPage = page < totalPages ? page + 1 : null;
+    const previousPage = page > 1 ? page - 1 : null;
+
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`;
+    const nextUrl = nextPage ? `${baseUrl}?page=${nextPage}&limit=${limit}` : null;
+    const previousUrl = previousPage ? `${baseUrl}?page=${previousPage}&limit=${limit}` : null;
+
+    return res.status(200).json({
+      classrooms,
+      next: nextUrl,
+      previous: previousUrl,
+    });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};*/
+controller.findAllByStudentIdWithTeacherName = async (req, res) => {
+  try {
+    let { limit = 10, offset = 0 } = req.query;
+    limit = parseInt(limit);
+    offset = parseInt(offset);
+    const { studentId } = req.params;
+
+    const totalClassrooms = await Classroom.countDocuments({ student: studentId });
+    const totalPages = Math.ceil(totalClassrooms / limit);
+
+    const classrooms = await Classroom.find({ student: studentId })
+      .skip(offset)
+      .limit(limit)
+      .populate("teacher", "name");
+
+    const nextOffset = offset + limit;
+    const previousOffset = offset - limit >= 0 ? offset - limit : 0;
+
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`;
+    const nextUrl = nextOffset < totalClassrooms ? `${baseUrl}?limit=${limit}&offset=${nextOffset}` : null;
+    const previousUrl = offset > 0 ? `${baseUrl}?limit=${limit-offset}&offset=${previousOffset}` : null;
+
+    return res.status(200).json({
+      classrooms,
+      next: nextUrl,
+      previous: previousUrl,
+    });
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Internal Server Error" });

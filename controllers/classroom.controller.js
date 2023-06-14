@@ -264,6 +264,38 @@ controller.findAllByStudentIdWithTeacherName = async (req, res) => {
   }
 };
 
+controller.findAllByStudentIdWithStudentName = async (req, res) => {
+  try {
+    let { limit = 10, offset = 0 } = req.query;
+    limit = parseInt(limit);
+    offset = parseInt(offset);
+    const { teacherId } = req.params;
+
+    const totalClassrooms = await Classroom.countDocuments({ teacher: teacherId });
+    const totalPages = Math.ceil(totalClassrooms / limit);
+
+    const classrooms = await Classroom.find({ teacher: teacherId })
+      .skip(offset)
+      .limit(limit)
+
+    const nextOffset = offset + limit;
+    const previousOffset = offset - limit >= 0 ? offset - limit : 0;
+
+    const baseUrl = `${req.protocol}://${req.get("host")}${req.originalUrl.split("?")[0]}`;
+    const nextUrl = nextOffset < totalClassrooms ? `${baseUrl}?limit=${limit}&offset=${nextOffset}` : null;
+    const previousUrl = offset > 0 ? `${baseUrl}?limit=${limit-offset}&offset=${previousOffset}` : null;
+
+    return res.status(200).json({
+      classrooms,
+      next: nextUrl,
+      previous: previousUrl,
+    });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 controller.updateByClassroomId = async (req, res) => {
   try {
     const { classroomId } = req.params;

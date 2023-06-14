@@ -27,9 +27,9 @@ router.delete("/delete/:identifier", classroomValidators.deleteClassroomByIdenti
 
 router.get("/students/classrooms/:studentId", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentId);
 
-router.get("/students/classrooms/plusname/teacher/:studentId", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentIdWithTeacherName);
+router.get("/students/classrooms/plusname/teacher/:id", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentOrTeacherIdWithTeacherName);
 
-router.get("/students/classrooms/teacher/:teacherId", classroomValidators.findClassroomsByTeacherIdValidator, runValidations, classroomController.findAllByStudentIdWithStudentName)
+//router.get("/students/classrooms/teacher/:teacherId", classroomValidators.findClassroomsByTeacherIdValidator, runValidations, classroomController.findAllByStudentIdWithStudentName)
 
 router.put("/teacher/update/:classroomId", classroomController.updateByClassroomId);
 

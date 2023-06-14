@@ -30,4 +30,9 @@ validators.findClassroomsByStudentIdValidator = [
         .notEmpty().withMessage("Identifier can(not) be empty"),
 ];
 
+validators.findClassroomsByTeacherIdValidator = [
+    param("teacherId")
+        .notEmpty().withMessage("Identifier can(not) be empty"),
+];
+
 module.exports = validators;

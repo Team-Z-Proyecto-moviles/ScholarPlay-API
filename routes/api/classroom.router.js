@@ -29,6 +29,8 @@ router.get("/students/classrooms/:studentId", classroomValidators.findClassrooms
 
 router.get("/students/classrooms/plusname/teacher/:studentId", classroomValidators.findClassroomsByStudentIdValidator, runValidations, classroomController.findAllByStudentIdWithTeacherName);
 
+router.get("/students/classrooms/teacher/:teacherId", classroomValidators.findClassroomsByTeacherIdValidator, runValidations, classroomController.findAllByStudentIdWithStudentName)
+
 router.put("/teacher/update/:classroomId", classroomController.updateByClassroomId);
 
 

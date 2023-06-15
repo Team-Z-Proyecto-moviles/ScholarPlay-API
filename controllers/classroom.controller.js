@@ -355,6 +355,30 @@ controller.updateByClassroomId = async (req, res) => {
   }
 };
 
+controller.addStudentToClassroom = async (req, res) => {
+  try {
+    const { studentId, codeClassroom } = req.body;
 
+    const classroom = await Classroom.findOne({ codeClassroom });
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found."});
+    }
+
+    const existingStudent = classroom.student.find((student) =>
+      student._id.equals(studentId)
+    );
+    if (existingStudent) {
+      return res.status(400).json({ error: "Student already exists in classroom." });
+    }
+
+    classroom.student.push(studentId);
+    await classroom.save();
+
+    return res.status(200).json({ message: "Student added to classroom successfully." });
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error." });
+  }
+};
 
 module.exports = controller;

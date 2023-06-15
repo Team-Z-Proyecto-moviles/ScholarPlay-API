@@ -7,6 +7,7 @@ const classroomValidators = require("../../validators/classroom.validators");
 const runValidations = require("../../validators/index.middleware");
 
 const { authentication } = require("../../middlewares/auth.middlewares");
+const controller = require("../../controllers/classroom.controller");
 
 router.get("/", classroomController.findAll);
 
@@ -33,5 +34,10 @@ router.get("/students/classrooms/plusname/teacher/:id", classroomValidators.find
 
 router.put("/teacher/update/:classroomId", classroomController.updateByClassroomId);
 
+router.post("/add-student/code/classroom",
+  classroomValidators.addStudentToClassroomValidator,
+  runValidations,
+  classroomController.addStudentToClassroom
+);
 
 module.exports = router;

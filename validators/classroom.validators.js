@@ -35,4 +35,15 @@ validators.findClassroomsByTeacherIdValidator = [
         .notEmpty().withMessage("Identifier can(not) be empty"),
 ];
 
+validators.addStudentToClassroomValidator = [
+    body("studentId")
+      .notEmpty()
+      .withMessage("Identifier can(not) be empty")
+      .isMongoId()
+      .withMessage("Invalid student ID"),
+    body("codeClassroom")
+      .notEmpty()
+      .withMessage("Code can(not) be empty")
+  ];
+
 module.exports = validators;

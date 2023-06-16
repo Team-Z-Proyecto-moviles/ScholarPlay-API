@@ -19,10 +19,17 @@ const ClassroomSchema = new Schema({
         ref: 'Student'
       }
     ],
-    codeClassroom: {
-      type: [String],
-      default: []
+    codeClassroom: [
+      { 
+      type: String,
+     }
+     ]  ,
+    image: [
+      {
+      type: String,
+      required: true
     }
+  ]
   }, { timestamps: true });
 
   ClassroomSchema.plugin(mongoosePaginate);

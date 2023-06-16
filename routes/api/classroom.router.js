@@ -1,6 +1,15 @@
 const express = require("express");
 const router = express.Router();
 
+const multer  = require('multer');
+const storage = multer.diskStorage({
+  destination: './public',
+  filename: function(req,file,cb) {
+    cb(null, file.originalname);
+  }
+});
+const upload = multer({ storage });
+
 const classroomController = require("../../controllers/classroom.controller");
 
 const classroomValidators = require("../../validators/classroom.validators");
@@ -39,5 +48,19 @@ router.post("/add-student/code/classroom",
   runValidations,
   classroomController.addStudentToClassroom
 );
+
+router.post('/upload', upload.single('image'),(req,res) =>{
+  const baseUrl = `${req.protocol}://${req.get("host")}`
+
+  if(!req.file){
+      return res.status(400).json({ message: "No se ha enviado ninguna imagen. "});
+  }
+
+  const imagePath = `${baseUrl}/${req.file.filename}`;
+
+  res.json({ message: "Imagen subida existosamente.", imagePath});
+
+})
+
 
 module.exports = router;

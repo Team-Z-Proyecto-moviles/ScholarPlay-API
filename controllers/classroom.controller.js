@@ -25,13 +25,14 @@ controller.create = async (req, res) => {
       return color;
     }
 
-    const { name, teacher, student, codeClassroom, image  } = req.body;
+    const { name, teacher, student, codeClassroom, image, section  } = req.body;
 
     const classroom = new Classroom({
       name: name,
       teacher: teacher,
       student: student,
       image: image,
+      section: section,
       codeClassroom: colorHEX()
     });
     
@@ -42,9 +43,8 @@ controller.create = async (req, res) => {
       return res.status(409).json({ error: "Error creating classroom" });
     }
 
-
-
-    return res.status(201).json(newClassroom);
+    //return res.status(201).json(newClassroom);
+    return res.status(201).json({message: "Classroom develop succesfull "});
   } catch (error) {
     debug({ error });
     return res.status(500).json({ error: "Server Error" });

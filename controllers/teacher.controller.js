@@ -8,9 +8,9 @@ const controller = {};
 controller.register = async (req, res) => {
     try{
 
-    const {name, password, email} = req.body;
+    const {name, password, email, status} = req.body;
 
-    const teacher = await Teacher.findOne({ $or: [{name: name}, {email: email} ]});
+    const teacher = await Teacher.findOne({email: email});
 
     if(teacher) {
         return res.status(409).json({ error: "The teacher already exits" })
@@ -19,7 +19,8 @@ controller.register = async (req, res) => {
     const newTeacher = new Teacher({
         name: name,
         password: password,
-        email: email
+        email: email,
+        status: status
     })
 
     await newTeacher.save();
@@ -63,7 +64,7 @@ controller.login = async (req, res) => {
     try{
         const { identifier, password } = req.body
 
-        const teacher = await Teacher.findOne({ $or: [ {name: identifier}, { email: identifier } ] });
+        const teacher = await Teacher.findOne( { email: identifier } );
 
         if (!teacher) {
             return res.status(404).json({ error: "The teacher does(not) exits" });

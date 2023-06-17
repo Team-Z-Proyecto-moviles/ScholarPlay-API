@@ -9,7 +9,6 @@ name: {
    type: String,
    trim: true,
    required: true,
-   unique: true
      },
 hashedPassword: {
    type: String,
@@ -20,6 +19,10 @@ email: {
    required: true,
    trim: true,
    unique: true
+   },
+status: {
+      type: String,
+      default: ""
    },
    salt: {
     type: String

@@ -1,6 +1,7 @@
 const { body, param } = require("express-validator");
 const validators = {};
-const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,32})/
+const passwordRegexp = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,32}$/
+// /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.{8,32})/
 
 validators.registerStudentValidator = [
     body("name")
@@ -12,7 +13,7 @@ validators.registerStudentValidator = [
         .isEmail().withMessage("The format can(not) be like this"),
     body("password")
         .notEmpty().withMessage("password can(not) be empty")
-        .matches(passwordRegexp).withMessage("The password must have between 8 and 32 characters, and at least 1 upper case, 1 lower case and 1 special symbol")
+        .matches(passwordRegexp).withMessage("The password must have between 8 and 32 characters, and at least 1 upper case, 1 lower case")
 ]
 
 validators.findStudenByIdValidator = [
@@ -52,11 +53,7 @@ validators.upgradeStudentValidator = [
   
 validators.deleteStudentValidator = [
     param("token")
-      .notEmpty().withMessage("Token cannot be empty")
+      .notEmpty().withMessage("Token can(not) be empty")
 ];
-
-  
-
-  
 
 module.exports = validators;

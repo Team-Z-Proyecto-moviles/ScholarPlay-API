@@ -21,14 +21,19 @@ const ClassroomSchema = new Schema({
     ],
     codeClassroom: [
       { 
-      type: String,
-     }
-     ]  ,
+        type: String,
+      }
+     ],
+    section: 
+      { 
+        type: String,
+        required: true
+      },
     image: [
       {
-      type: String,
-      required: true
-    }
+        type: String,
+        required: true
+      }
   ]
   }, { timestamps: true });
 

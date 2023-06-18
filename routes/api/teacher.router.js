@@ -35,4 +35,11 @@ runValidations,
 teacherController.findTeacherByToken);
 
 
+router.put("/identifier/updateImage/:identifier",
+  teacherValidators.updateImageValidator,
+  runValidations,
+  teacherController.updateImage
+);
+
+
 module.exports = router;

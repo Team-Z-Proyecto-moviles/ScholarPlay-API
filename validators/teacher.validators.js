@@ -54,7 +54,14 @@ validators.updateTeacherValidator = [
     param("token").notEmpty().withMessage("Token can(not) be empty"),
   ];
   
-  module.exports = validators;
+  validators.updateImageValidator = [
+    param("identifier")
+      .notEmpty().withMessage("Identifier can(not) be empty")
+      .isMongoId().withMessage("Identifier must be a valid MongoDB ID"),
+    body("avatar")
+      .notEmpty().withMessage("Avatar can(not) be empty")
+  ];
+  
   
 
 module.exports = validators;

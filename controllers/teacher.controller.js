@@ -142,5 +142,26 @@ controller.findTeacherByToken = async (req, res) => {
     }
   };
   
+  controller.updateImage = async (req, res) => {
+    try {
+      const { identifier } = req.params;
+      const { avatar } = req.body;
+  
+      const updatedTeacher = await Teacher.findOneAndUpdate(
+        { _id: identifier },
+        { avatar },
+        { new: true }
+      );
+  
+      if (!updatedTeacher) {
+        return res.status(404).json({ error: "Teacher not found" });
+      }
+  
+      return res.status(200).json(updatedTeacher);
+    } catch (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Internal server error" });
+    }
+  };
 
 module.exports = controller;

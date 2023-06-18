@@ -155,6 +155,29 @@ controller.deleteAllUsers = async (req, res) => {
   }
 };
 
+controller.updateImage = async (req, res) => {
+  try {
+    const { identifier } = req.params;
+    const { avatar } = req.body;
+
+    const updatedStudent = await Student.findOneAndUpdate(
+      { _id: identifier },
+      { avatar },
+      { new: true }
+    );
+
+    if (!updatedStudent) {
+      return res.status(404).json({ error: "Student not found" });
+    }
+
+    return res.status(200).json(updatedStudent);
+  } catch (error) {
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
+
+
 
 module.exports = controller;
 

@@ -20,6 +20,9 @@ email: {
    trim: true,
    unique: true
    },
+avatar:{
+     type: String,
+   },
 status: {
       type: String,
       default: ""

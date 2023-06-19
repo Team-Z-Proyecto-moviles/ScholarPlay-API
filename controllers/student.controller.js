@@ -8,7 +8,7 @@ const controller = {};
 controller.register = async (req, res) => {
   try{
       
-  const {name, password, email, status} = req.body;
+  const {name, password, email, avatar, status} = req.body;
 
   const student = await Student.findOne( {email: email} );
 
@@ -20,6 +20,7 @@ controller.register = async (req, res) => {
       name: name,
       password: password,
       email: email,
+      avatar: avatar,
       status: status
   })
 

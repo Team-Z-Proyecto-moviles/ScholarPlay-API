@@ -13,8 +13,8 @@ validators.registerTeacherValidator = [
     body("password")
         .notEmpty().withMessage("password can(not) be empty")
         .matches(passwordRegexp).withMessage("The password must have between 8 and 32 characters, and at least 1 upper case, 1 lower case and 1 special symbol"),
-    body("avatar")
-        .notEmpty().withMessage("avatar can(not) be empty")
+    //body("avatar")
+        //.notEmpty().withMessage("avatar can(not) be empty")
 ]//1
 
 validators.findTeacherByIdValidator = [

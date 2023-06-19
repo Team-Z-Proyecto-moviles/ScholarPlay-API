@@ -8,6 +8,15 @@ const controller = {};
 controller.register = async (req, res) => {
   try{
       
+    function generarLetra(){
+      var letras = ["Blonde_rasta.png","Bold_friendly.png","Dracula.png","Dreads_kid.png","Gasparin.png","Happy_braces.png","Happy_bun.png","Happy_Skull.png","Mummy.png","Orange_curly.png","Pumpkin.png","Purple_punk.png","Wavy_carrot.png","Wolf.png"];
+      var letra = (Math.random()*13).toFixed(0);
+      
+     const baseUrl = `${req.protocol}://${req.get("host")}`;
+      
+      return baseUrl + "/" + letras[letra];
+    }
+    
   const {name, password, email, avatar, status} = req.body;
 
   const student = await Student.findOne( {email: email} );
@@ -20,7 +29,7 @@ controller.register = async (req, res) => {
       name: name,
       password: password,
       email: email,
-      avatar: avatar,
+      avatar: generarLetra(),
       status: status
   })
 

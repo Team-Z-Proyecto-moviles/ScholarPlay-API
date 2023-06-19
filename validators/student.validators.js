@@ -13,7 +13,9 @@ validators.registerStudentValidator = [
         .isEmail().withMessage("The format can(not) be like this"),
     body("password")
         .notEmpty().withMessage("password can(not) be empty")
-        .matches(passwordRegexp).withMessage("The password must have between 8 and 32 characters, and at least 1 upper case, 1 lower case")
+        .matches(passwordRegexp).withMessage("The password must have between 8 and 32 characters, and at least 1 upper case, 1 lower case"),
+    body("avatar")
+        .notEmpty().withMessage("avatar can(not) be empty")
 ]
 
 validators.findStudenByIdValidator = [

@@ -99,7 +99,27 @@ authController.findOneByTokenAll = async (req, res) => {
   }
 };
 
+authController.updateUser = async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { name, email } = req.body;
 
+    const student = await Student.findByIdAndUpdate(id, { name, email }, { new: true });
+    if (student) {
+      return res.status(200).json({ user: student });
+    }
+
+    const teacher = await Teacher.findByIdAndUpdate(id, { name, email }, { new: true });
+    if (teacher) {
+      return res.status(200).json({ user: teacher });
+    }
+
+    return res.status(404).json({ message: "User not found" });
+  } catch (error) {
+    debug(error);
+    return res.status(500).json({ error: "Internal server error" });
+  }
+};
 
 //1
 module.exports = authController;

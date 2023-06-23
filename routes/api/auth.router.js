@@ -16,4 +16,9 @@ authController.findOneByToken);
 router.get("/find/alldata/user/:token",
 authController.findOneByTokenAll);
 
+router.put("/update/data/user/:id",
+  authValidators.updateUserValidator,
+  runValidations,
+  authController.updateUser);
+
 module.exports = router;

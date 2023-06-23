@@ -12,7 +12,8 @@ controller.register = async (req, res) => {
       var letras = ["Blonde_rasta.png","Bold_friendly.png","Dracula.png","Dreads_kid.png","Gasparin.png","Happy_braces.png","Happy_bun.png","Happy_Skull.png","Mummy.png","Orange_curly.png","Pumpkin.png","Purple_punk.png","Wavy_carrot.png","Wolf.png"];
       var letra = (Math.random()*13).toFixed(0);
       
-     const baseUrl = `${req.protocol}://${req.get("host")}`;
+      const baseUrl = `${req.protocol}://${req.get("host")}`;
+
       
       return baseUrl + "/" + letras[letra];
     }

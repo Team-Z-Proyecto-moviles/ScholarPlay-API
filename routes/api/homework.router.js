@@ -18,4 +18,16 @@ router.post("/",
   homeworkController.create
 );
 
+router.put("/update/data/student/grade/:homeworkId",
+  homeworkValidators.updateByHomeworkIdValidator,
+  runValidations,
+  homeworkController.updateByHomeworkId
+);
+
+router.get("/get/grade/:studentId/:homeworkId",
+  homeworkValidators.findGradeByStudentAndHomeworkIdValidator,
+  runValidations,
+  homeworkController.findGradeByStudentAndHomeworkId
+);
+
 module.exports = router;

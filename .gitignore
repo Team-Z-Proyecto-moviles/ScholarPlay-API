@@ -1,25 +1,3 @@
 # Ignorar node_modules
 node_modules
 
-# Ignorar los logs
-*.log
-
-# Ignorar el archivo .env que contiene las variables de entorno
-.env
-
-# Ignorar los archivos generados durante la construcción
-dist
-
-# Ignorar archivos de IDE / Editor
-.idea
-*.sublime*
-.vscode
-
-# Ignorar archivos de Docker
-Dockerfile
-docker-compose.yml
-
-# Ignorar archivos de npm
-npm-debug.log
-package-lock.json
-

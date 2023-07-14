@@ -440,5 +440,24 @@ controller.getAllStudentsByClassroomId = async (req, res) => {
   }
 };
 
+controller.getCodeClassroomById = async (req, res) => {
+  try {
+    const { classroomId } = req.params;
+
+    const classroom = await Classroom.findById(classroomId);
+
+    if (!classroom) {
+      return res.status(404).json({ error: "Classroom not found" });
+    }
+
+    const codeClassroom = classroom.codeClassroom;
+
+    return res.status(200).json({ codeClassroom });
+  } catch (error) {
+    debug({ error });
+    return res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 
 module.exports = controller;

@@ -68,6 +68,9 @@ router.get("/find/pagination/student/:classroomId",
   classroomController.getAllStudentsByClassroomId
 );
 
+router.get("/code/:classroomId", classroomController.getCodeClassroomById);
+
+
 //23
 
 module.exports = router;

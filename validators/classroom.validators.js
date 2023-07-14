@@ -43,7 +43,13 @@ validators.addStudentToClassroomValidator = [
       .withMessage("Invalid student ID"),
     body("codeClassroom")
       .notEmpty()
-      .withMessage("Code can(not) be empty")
-  ];
+      .withMessage("Identifier must be mongo")
+];
+
+validators.findStudentsByClassroomIdValidator = [
+    param("classroomId")
+      .notEmpty().withMessage("Classroom identifier can(not) be empty")
+      .isMongoId().withMessage("Identifier must be mongo"),
+];
 
 module.exports = validators;
